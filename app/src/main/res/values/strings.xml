@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">BitFit Part 1</string>
+    <string name="food">Food:</string>
+    <string name="calories">Calories</string>
+    <string name="enter_food_name">Enter Food Name</string>
+    <string name="enter_calories">Enter Calories</string>
+    <string name="add_new_food">Add New Food</string>
+    <string name="record_this_food">Record This Food</string>
+    <string name="item_name">Item Name</string>
+    <string name="_00">00</string>
+    <string name="calories2">Calories:</string>
+</resources>
