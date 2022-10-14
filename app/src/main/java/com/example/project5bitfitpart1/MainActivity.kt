@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.lifecycleScope
@@ -17,13 +18,15 @@ import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     var items = mutableListOf<BitFitItem>()
-
+    var totalCal = 0.0
+    var itemNum = 0.0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         val itemRv = findViewById<RecyclerView>(R.id.ItemsListRecyclerView)
         val addButton = findViewById<Button>(R.id.AddItemButton)
+        val avgTv = findViewById<TextView>(R.id.AverageCalories)
 
         val adapter = BitFitAdapter(items)
         itemRv.adapter = adapter
@@ -39,11 +42,15 @@ class MainActivity : AppCompatActivity() {
                     BitFitItem(
                         entity.itemName,
                         entity.calories
-                    )
+                    ).also {
+                        totalCal += it.calories?.toInt() ?: 0
+                        itemNum += 1.0
+                    }
                 }.also { mappedList ->
                     items.clear()
                     items.addAll(mappedList)
                     adapter.notifyDataSetChanged()
+                    avgTv.text = "Average number of calories: ${String.format("%.2f", totalCal/itemNum)}"
                 }
             }
         }
@@ -69,6 +76,9 @@ class MainActivity : AppCompatActivity() {
                             )
                         }
                     }
+                    totalCal += newItem.calories?.toInt() ?: 0
+                    itemNum += 1.0
+                    avgTv.text = "Average number of calories: ${String.format("%.2f", totalCal/itemNum)}"
                 }
             }
         }
